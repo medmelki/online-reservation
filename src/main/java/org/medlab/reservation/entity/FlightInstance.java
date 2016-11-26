@@ -37,6 +37,46 @@ public class FlightInstance implements Serializable {
         this.price = price;
     }
 
+    public String getFlightId() {
+        return flightId;
+    }
+
+    public void setFlightId(String flightId) {
+        this.flightId = flightId;
+    }
+
+    public Long getDate() {
+        return date;
+    }
+
+    public void setDate(Long date) {
+        this.date = date;
+    }
+
+    public Integer getAvailableSeats() {
+        return availableSeats;
+    }
+
+    public void setAvailableSeats(Integer availableSeats) {
+        this.availableSeats = availableSeats;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Flight getFlight() {
+        return flight;
+    }
+
+    public void setFlight(Flight flight) {
+        this.flight = flight;
+    }
+
     @Override
     public String toString() {
         return "FlightInstance{" +

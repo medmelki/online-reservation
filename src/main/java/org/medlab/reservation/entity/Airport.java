@@ -35,6 +35,47 @@ public class Airport implements Serializable {
         this.city = city;
     }
 
+
+    public String getIATACode() {
+        return IATACode;
+    }
+
+    public void setIATACode(String IATACode) {
+        this.IATACode = IATACode;
+    }
+
+    public String getTimeZone() {
+        return timeZone;
+    }
+
+    public void setTimeZone(String timeZone) {
+        this.timeZone = timeZone;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     @Override
     public String toString() {
         return "Airport{" +
