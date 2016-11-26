@@ -1,12 +1,12 @@
 package org.medlab.reservation.dao;
 
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
 import java.util.List;
 
-@Service
+@Repository
 public interface GenericDao<T, PK extends Serializable> {
 
     T create(T t);
