@@ -3,6 +3,7 @@ package org.medlab.reservation.entity;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -19,11 +20,11 @@ public class Reservation implements Serializable {
 
     private Double totalPrice;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "passenger_fk")
     private Passenger passenger;
 
-    @ManyToOne
+    @ManyToOne(cascade= CascadeType.ALL)
     @JoinColumn(name = "flight_instance_fk")
     private FlightInstance flightInstance;
 
