@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.medlab.reservation.dao.FlightInstanceDao;
+import org.medlab.reservation.entity.Airline;
 import org.medlab.reservation.entity.Airport;
 import org.medlab.reservation.entity.Flight;
 import org.medlab.reservation.entity.FlightInstance;
@@ -30,6 +31,10 @@ public class FlightResourceTest {
 
     @Before
     public void setup() {
+
+        Airline airline = new Airline();
+        airline.setName("American Airlines");
+
         Airport airport = new Airport();
         airport.setIATACode("NYC");
         airport.setName("New York international Airport");
@@ -42,6 +47,7 @@ public class FlightResourceTest {
         flight.setFlightNumber("QE1235");
         flight.setOrigin(airport);
         flight.setDestination(airport2);
+        flight.setAirline(airline);
 
         FlightInstance flightInstance = new FlightInstance();
         flightInstance.setFlightId("00ee4");
@@ -56,13 +62,13 @@ public class FlightResourceTest {
     @Test
     public void testGetAvailableFlightsFromAndSince() {
 
-        given().when().get("api/flights/NY/2016-11-26Z/123").then().statusCode(200);
+        given().when().get("api/flights/NYC/2016-11-26Z/123").then().statusCode(200);
     }
 
     @Test
     public void testGetAvailableFlightsFromToAndSince() {
 
-        given().when().get("api/flights/NY/LAX/2016-11-26Z/123").then().statusCode(200);
+        given().when().get("api/flights/NYC/CHI/2016-11-26Z/123").then().statusCode(200);
     }
 
     @After
