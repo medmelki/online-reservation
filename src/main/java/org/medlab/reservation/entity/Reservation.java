@@ -5,11 +5,15 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "reservations")
@@ -20,14 +24,20 @@ public class Reservation implements Serializable {
 
     private Double totalPrice;
 
-    @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name = "passenger_fk")
-    private Passenger passenger;
+    private Integer numberOfSeats;
 
-    @ManyToOne(cascade= CascadeType.ALL)
+    private String reserveeName;
+
+    private String reserveePhone;
+
+    private String reserveeEmail;
+
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "flight_instance_fk")
     private FlightInstance flightInstance;
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "reservation")
+    private List<Passenger> passengers;
 
     public String getId() {
         return id;
@@ -45,20 +55,52 @@ public class Reservation implements Serializable {
         this.totalPrice = totalPrice;
     }
 
-    public Passenger getPassenger() {
-        return passenger;
-    }
-
-    public void setPassenger(Passenger passenger) {
-        this.passenger = passenger;
-    }
-
     public FlightInstance getFlightInstance() {
         return flightInstance;
     }
 
     public void setFlightInstance(FlightInstance flightInstance) {
         this.flightInstance = flightInstance;
+    }
+
+    public List<Passenger> getPassengers() {
+        return passengers;
+    }
+
+    public void setPassengers(List<Passenger> passengers) {
+        this.passengers = passengers;
+    }
+
+    public Integer getNumberOfSeats() {
+        return numberOfSeats;
+    }
+
+    public void setNumberOfSeats(Integer numberOfSeats) {
+        this.numberOfSeats = numberOfSeats;
+    }
+
+    public String getReserveeName() {
+        return reserveeName;
+    }
+
+    public void setReserveeName(String reserveeName) {
+        this.reserveeName = reserveeName;
+    }
+
+    public String getReserveePhone() {
+        return reserveePhone;
+    }
+
+    public void setReserveePhone(String reserveePhone) {
+        this.reserveePhone = reserveePhone;
+    }
+
+    public String getReserveeEmail() {
+        return reserveeEmail;
+    }
+
+    public void setReserveeEmail(String reserveeEmail) {
+        this.reserveeEmail = reserveeEmail;
     }
 
     @Override

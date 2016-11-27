@@ -1,10 +1,14 @@
 package org.medlab.reservation.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 
@@ -18,6 +22,10 @@ public class Passenger implements Serializable {
     private String firstName;
 
     private String lastName;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "reservation_fk")
+    private Reservation reservation;
 
     public String getId() {
         return id;
@@ -41,6 +49,15 @@ public class Passenger implements Serializable {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    @JsonIgnore
+    public Reservation getReservation() {
+        return reservation;
+    }
+
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
     }
 
     @Override
