@@ -9,14 +9,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class FlightResponse {
 
-    private String flightID = null;
-    private String flightNumber = null;
-    private String date = null;
+    private String flightID = "";
+    private String flightNumber = "";
+    private String date = "";
     private int numberOfSeats;
     private double totalPrice;
     private int travelTime;
-    private String origin = null;
-    private String destination = null;
+    private String origin = "";
+    private String destination = "";
 
     public FlightResponse(String flightID, String flightNumber, String date, int numberOfSeats, double totalPrice, int travelTime, String origin, String destination) {
         this.flightID = flightID;
