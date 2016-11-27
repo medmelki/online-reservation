@@ -3,7 +3,9 @@ package org.medlab.reservation;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.medlab.reservation.dao.FlightInstanceDao;
 import org.medlab.reservation.dao.ReservationDao;
+import org.medlab.reservation.entity.FlightInstance;
 import org.medlab.reservation.entity.Reservation;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.CollectionUtils;
@@ -18,6 +20,9 @@ public class ReservationResourceTest {
     private static ClassPathXmlApplicationContext springAppContext;
 
     ReservationDao reservationDao;
+    FlightInstanceDao flightInstanceDao;
+
+    FlightInstance flightInstance;
     String generatedId = "";
 
     @Before
@@ -25,8 +30,15 @@ public class ReservationResourceTest {
         springAppContext =
                 new ClassPathXmlApplicationContext("applicationContext.xml");
         reservationDao = (ReservationDao) springAppContext.getBean("reservationDaoImpl");
+        flightInstanceDao = (FlightInstanceDao) springAppContext.getBean("flightInstanceDaoImpl");
 
         generatedId = UUID.randomUUID().toString();
+        flightInstance = new FlightInstance();
+        flightInstance.setFlightId(generatedId);
+        flightInstance.setAvailableSeats(145);
+
+        flightInstanceDao.create(flightInstance);
+
     }
 
     @Test
@@ -45,7 +57,7 @@ public class ReservationResourceTest {
         if (!CollectionUtils.isEmpty(reservations)) {
             reservationDao.delete((Reservation) reservations.get(0));
         }
-
+        flightInstanceDao.delete(flightInstance);
     }
 
 }
