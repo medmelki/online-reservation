@@ -31,18 +31,23 @@ public class FlightResourceTest {
     @Before
     public void setup() {
         Airport airport = new Airport();
-        airport.setIATACode("NY");
-        airport.setName("NY");
+        airport.setIATACode("NYC");
+        airport.setName("New York international Airport");
+
+        Airport airport2 = new Airport();
+        airport2.setIATACode("CHI");
+        airport2.setName("Chicago international Airport");
 
         Flight flight = new Flight();
-        flight.setFlightNumber("QE1234");
+        flight.setFlightNumber("QE1235");
         flight.setOrigin(airport);
+        flight.setDestination(airport2);
 
         FlightInstance flightInstance = new FlightInstance();
-        flightInstance.setFlightId("00FZ5");
+        flightInstance.setFlightId("00ee4");
         flightInstance.setAvailableSeats(145);
         flightInstance.setFlight(flight);
-        flightInstance.setDate(1480118400000L);
+        flightInstance.setDate(1480118400000L); // 2016-11-26
 
         flight1 = flightInstanceDao.create(flightInstance);
 
@@ -52,6 +57,12 @@ public class FlightResourceTest {
     public void testGetAvailableFlightsFromAndSince() {
 
         given().when().get("api/flights/NY/2016-11-26Z/123").then().statusCode(200);
+    }
+
+    @Test
+    public void testGetAvailableFlightsFromToAndSince() {
+
+        given().when().get("api/flights/NY/LAX/2016-11-26Z/123").then().statusCode(200);
     }
 
     @After

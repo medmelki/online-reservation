@@ -9,5 +9,6 @@ import java.util.List;
 public interface FlightInstanceDao extends GenericDao<FlightInstance, String> {
 
     List getAllFlightsByAirportSince(String name, Long time);
+    List getAllFlightsByAirportsSince(String origin, String destination, Long time);
 
 }

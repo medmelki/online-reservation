@@ -6,13 +6,11 @@ import org.medlab.reservation.dao.FlightInstanceDao;
 import org.medlab.reservation.entity.Airport;
 import org.medlab.reservation.entity.Flight;
 import org.medlab.reservation.entity.FlightInstance;
-import org.medlab.reservation.exceptions.FlightException;
 import org.medlab.reservation.exceptions.IllegalInputException;
 import org.medlab.reservation.exceptions.NoFlightsException;
 import org.medlab.reservation.exceptions.NoTicketsException;
+import org.medlab.reservation.exceptions.UnknownErrorException;
 import org.medlab.reservation.util.DateUtils;
-import org.medlab.reservation.webservices.response.FlightResponse;
-import org.medlab.reservation.webservices.response.FlightsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -38,8 +36,8 @@ public class FlightResource {
     @Path("{from}/{date}/{tickets}")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getAvailableFlightsFromAndSince(@PathParam("from") String from,
-                                           @PathParam("date") String date,
-                                           @PathParam("tickets") Integer tickets) {
+                                                    @PathParam("date") String date,
+                                                    @PathParam("tickets") Integer tickets) {
 
         if (StringUtils.isEmpty(from) || StringUtils.isEmpty(date) || tickets == null) {
             throw new IllegalInputException();
@@ -50,7 +48,54 @@ public class FlightResource {
         } catch (Exception e) {
             throw new IllegalInputException();
         }
-        List<FlightInstance> flights = flightInstanceDao.getAllFlightsByAirportSince(from, time);
+        List<FlightInstance> flights;
+        try {
+            flights = flightInstanceDao.getAllFlightsByAirportSince(from, time);
+        } catch (Exception e) {
+            throw new UnknownErrorException();
+        }
+        if (CollectionUtils.isEmpty(flights)) {
+            throw new NoFlightsException();
+        }
+        ArrayList toRemove = new ArrayList();
+        for (FlightInstance flight : flights) {
+            if (flight.getAvailableSeats() < tickets) {
+                toRemove.add(flight);
+            }
+        }
+        flights.removeAll(toRemove);
+        if (CollectionUtils.isEmpty(flights)) {
+            throw new NoTicketsException();
+        }
+
+        List flightsResponse = FlightsResponseBuilder.build(flights);
+        return Response.status(200).entity(flightsResponse).build();
+    }
+
+    @GET
+    @Path("{from}/{to}/{date}/{tickets}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getAvailableFlightsFromToAndSince(@PathParam("from") String from,
+                                                      @PathParam("to") String to,
+                                                      @PathParam("date") String date,
+                                                      @PathParam("tickets") Integer tickets) {
+
+        if (StringUtils.isEmpty(from) || StringUtils.isEmpty(to) ||
+                StringUtils.isEmpty(date) || tickets == null) {
+            throw new IllegalInputException();
+        }
+        Long time;
+        try {
+            time = DateUtils.dateStringToLong(date);
+        } catch (Exception e) {
+            throw new IllegalInputException();
+        }
+        List<FlightInstance> flights;
+        try {
+            flights = flightInstanceDao.getAllFlightsByAirportsSince(from, to, time);
+        } catch (Exception e) {
+            throw new UnknownErrorException();
+        }
         if (CollectionUtils.isEmpty(flights)) {
             throw new NoFlightsException();
         }
