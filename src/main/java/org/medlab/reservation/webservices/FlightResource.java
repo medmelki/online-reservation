@@ -3,6 +3,7 @@ package org.medlab.reservation.webservices;
 import org.apache.commons.lang.StringUtils;
 import org.medlab.reservation.dao.FlightDao;
 import org.medlab.reservation.dao.FlightInstanceDao;
+import org.medlab.reservation.entity.Airline;
 import org.medlab.reservation.entity.Airport;
 import org.medlab.reservation.entity.Flight;
 import org.medlab.reservation.entity.FlightInstance;
@@ -120,13 +121,22 @@ public class FlightResource {
     @Transactional
     public Response save() {
 
+        Airline airline = new Airline();
+        airline.setName("American Airlines");
+
         Airport airport = new Airport();
         airport.setIATACode("NY");
         airport.setName("NY");
 
+        Airport airport2 = new Airport();
+        airport2.setIATACode("LAX");
+        airport2.setName("LAX");
+
         Flight flight = new Flight();
         flight.setFlightNumber("QE1234");
         flight.setOrigin(airport);
+        flight.setDestination(airport2);
+        flight.setAirline(airline);
 
         FlightInstance flightInstance = new FlightInstance();
         flightInstance.setFlightId("00FZ5");
