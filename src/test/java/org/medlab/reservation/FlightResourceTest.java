@@ -36,7 +36,7 @@ public class FlightResourceTest {
 
         Flight flight = new Flight();
         flight.setFlightNumber("QE1234");
-        flight.setAirport(airport);
+        flight.setOrigin(airport);
 
         FlightInstance flightInstance = new FlightInstance();
         flightInstance.setFlightId("00FZ5");

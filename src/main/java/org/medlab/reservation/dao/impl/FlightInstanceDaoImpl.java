@@ -17,7 +17,7 @@ public class FlightInstanceDaoImpl extends GenericDaoImpl<FlightInstance, String
 
     public List getAllFlightsByAirportSince(String name, Long time) {
         Query query = super.entityManager.createQuery("SELECT fi FROM FlightInstance fi " +
-                "JOIN FETCH fi.flight f JOIN FETCH f.airport a WHERE fi.date <= :d AND a.name = :n");
+                "JOIN FETCH fi.flight f JOIN FETCH f.origin a WHERE fi.date <= :d AND a.name = :n");
         return query.setParameter("d", time)
                 .setParameter("n", name)
                 .getResultList();

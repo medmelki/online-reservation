@@ -28,8 +28,12 @@ public class Flight implements Serializable {
     private Airline airline;
 
     @ManyToOne(cascade= CascadeType.ALL)
-    @JoinColumn(name = "airport_fk")
-    private Airport airport;
+    @JoinColumn(name = "origin_fk")
+    private Airport origin;
+
+    @ManyToOne(cascade= CascadeType.ALL)
+    @JoinColumn(name = "destination_fk")
+    private Airport destination;
 
 
     public Flight() {
@@ -73,12 +77,20 @@ public class Flight implements Serializable {
         this.airline = airline;
     }
 
-    public Airport getAirport() {
-        return airport;
+    public Airport getOrigin() {
+        return origin;
     }
 
-    public void setAirport(Airport airport) {
-        this.airport = airport;
+    public void setOrigin(Airport origin) {
+        this.origin = origin;
+    }
+
+    public Airport getDestination() {
+        return destination;
+    }
+
+    public void setDestination(Airport destination) {
+        this.destination = destination;
     }
 
     @Override

@@ -11,6 +11,8 @@ import org.medlab.reservation.exceptions.IllegalInputException;
 import org.medlab.reservation.exceptions.NoFlightsException;
 import org.medlab.reservation.exceptions.NoTicketsException;
 import org.medlab.reservation.util.DateUtils;
+import org.medlab.reservation.webservices.response.FlightResponse;
+import org.medlab.reservation.webservices.response.FlightsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -62,7 +64,9 @@ public class FlightResource {
         if (CollectionUtils.isEmpty(flights)) {
             throw new NoTicketsException();
         }
-        return Response.status(200).entity(flights).build();
+
+        List flightsResponse = FlightsResponseBuilder.build(flights);
+        return Response.status(200).entity(flightsResponse).build();
     }
 
     @GET
@@ -77,12 +81,13 @@ public class FlightResource {
 
         Flight flight = new Flight();
         flight.setFlightNumber("QE1234");
-        flight.setAirport(airport);
+        flight.setOrigin(airport);
 
         FlightInstance flightInstance = new FlightInstance();
         flightInstance.setFlightId("00FZ5");
         flightInstance.setAvailableSeats(145);
         flightInstance.setFlight(flight);
+        flightInstance.setDate(1480118400000L);
 
         FlightInstance flight1 = flightInstanceDao.create(flightInstance);
 
